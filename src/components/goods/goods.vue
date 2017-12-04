@@ -28,6 +28,9 @@
                     <span class="nowPrice">￥{{ food.price }}</span>
                     <span class="oldPrice" v-if="food.oldPrice">￥{{ food.oldPrice }}</span>
                   </div>
+                  <div class="cart-wrapper">
+                    <cartcontrol :food="food"></cartcontrol>
+                  </div>
                   <!--<div class="choose">-->
                     <!--<span class="sub ion ion-ios-minus-outline" v-if="addnumber"></span>-->
                     <!--<span class="number" v-if="addnumber">{{ addnumber }}</span>-->
@@ -39,19 +42,21 @@
           </li>
         </ul>
       </div>
-      <shopcar :carlist="carlist"></shopcar>
+      <shopcar :deliveryprice="seller.deliveryPrice" :minprice="seller.minPrice"></shopcar>
     </div>
 </template>
 
 <script type="text/ecmascript-6">
   import icon from '../../components/icon/icon.vue';
   import shopcar from '../../components/shopCar/shopCar.vue';
+  import cartcontrol from '../../components/cartcontrol/cartcontrol.vue';
   import BScroll from 'better-scroll';
   const ERR_OK = 0;
     export default {
       components: {
         icon,
-        shopcar
+        shopcar,
+        cartcontrol
       },
       props: {
         seller: {
@@ -97,7 +102,8 @@
             click: true
           });
           this.foodsScroll = new BScroll(this.$refs.foods, {
-            probeType: 3
+            probeType: 3,
+            click: true
           });
           this.foodsScroll.on('scroll', (pos) => {
             this.scrollY = Math.abs(Math.round(pos.y));
@@ -144,10 +150,7 @@
           .desc{ margin-bottom: 8px;}
           .nowPrice{ font-size: 14px; color: rgb(140,20,20); font-weight: 700; line-height:24px; margin-right: 8px;}
           .oldPrice{ font-size: 10px; color: rgb(147,153,159); text-decoration: line-through}
-          .choose{ position: absolute; font-size: 0; right: 0px; bottom: -2px;
-            .sub,.add{font-size: 24px; color: #00a0dc;}
-            .number{ display: inline-block; width: 24px; text-align: center; font-size: 10px; color: rgb(147,153,159); position: relative; top: -4px}
-          }
+          .cart-wrapper{ position: absolute; right: 0; bottom: -8px;}
         }
       }
     }
