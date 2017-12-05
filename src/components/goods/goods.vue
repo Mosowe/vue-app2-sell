@@ -13,7 +13,7 @@
           <li v-for="item in goods" class="foods-list-hook">
             <h1 class="title">{{ item.name }}</h1>
             <ul>
-              <li v-for="food in item.foods" class="foodList">
+              <li @click="selectFood(food)" v-for="food in item.foods" class="foodList">
                 <div class="icon">
                   <img :src="food.icon" width="57" height="57">
                 </div>
@@ -38,6 +38,8 @@
         </ul>
       </div>
       <shopcar :select-foods="selectFoods" :deliveryprice="seller.deliveryPrice" :minprice="seller.minPrice"></shopcar>
+
+      <food :food="selectedFood" ref="food"></food>
     </div>
 </template>
 
@@ -45,11 +47,13 @@
   import icon from '../../components/icon/icon.vue';
   import shopcar from '../../components/shopCar/shopCar.vue';
   import cartcontrol from '../../components/cartcontrol/cartcontrol.vue';
+  import food from '../../components/food/food.vue';
   import BScroll from 'better-scroll';
   const ERR_OK = 0;
     export default {
       components: {
         icon,
+        food,
         shopcar,
         cartcontrol
       },
@@ -64,7 +68,8 @@
             type: Object
           },
           listHeight: [],
-          scrollY: 0
+          scrollY: 0,
+          selectedFood: {}
         };
       },
       created () {
@@ -129,6 +134,10 @@
           let foodlist = this.$refs.foods.getElementsByClassName('foods-list-hook');
           let act = foodlist[index];
           this.foodsScroll.scrollToElement(act, 300);
+        },
+        selectFood (food) {
+          this.selectedFood = food;
+          this.$refs.food.show();
         }
       }
     };
