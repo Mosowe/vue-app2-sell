@@ -31,18 +31,13 @@
                   <div class="cart-wrapper">
                     <cartcontrol :food="food"></cartcontrol>
                   </div>
-                  <!--<div class="choose">-->
-                    <!--<span class="sub ion ion-ios-minus-outline" v-if="addnumber"></span>-->
-                    <!--<span class="number" v-if="addnumber">{{ addnumber }}</span>-->
-                    <!--<span class="add ion ion-plus-circled"></span>-->
-                  <!--</div>-->
                 </div>
               </li>
             </ul>
           </li>
         </ul>
       </div>
-      <shopcar :deliveryprice="seller.deliveryPrice" :minprice="seller.minPrice"></shopcar>
+      <shopcar :select-foods="selectFoods" :deliveryprice="seller.deliveryPrice" :minprice="seller.minPrice"></shopcar>
     </div>
 </template>
 
@@ -94,6 +89,17 @@
             }
           }
           return 0;
+        },
+        selectFoods () {
+          let foods = [];
+          this.goods.forEach((good) => {
+            good.foods.forEach((food) => {
+              if (food.count) {
+                foods.push(food);
+              }
+          });
+        });
+          return foods;
         }
       },
       methods: {
@@ -133,8 +139,10 @@
   #goods{position: absolute; display: flex; width: 100%; top: 175px; bottom: 46px; overflow: hidden;
     .menu-wrapper{ flex: 0 0 80px; width: 80px; background: #f3f5f7;
       .menu-item{ display:table; height: 54px; width: 56px; line-height: 14px; padding: 0 12px;
-        &.active{ background-color: #fff}
-        .text{ font-size: 12px; color: rgb(77, 85, 93); display: table-cell; vertical-align: middle; .border-1px()}
+        .text{ font-size: 12px; color: rgb(77, 85, 93); display: table-cell; vertical-align: middle; border-bottom: 1px solid rgba(7,17,27,0.1)}
+        &.active{ background-color: #fff;margin-top: -1px; z-index: 2; font-weight: 700;
+          .text{.border-none}
+        }
       }
     }
     .foods-wrapper{ flex: 1;
