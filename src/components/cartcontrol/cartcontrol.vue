@@ -1,8 +1,8 @@
 <template>
     <div class="cartcontrol">
-      <div class="cart-decrease ion ion-ios-minus-outline" v-show="food.count>0" @click="decCart"></div>
+      <div class="cart-decrease ion ion-ios-minus-outline" v-show="food.count>0" @click.stop="decCart"></div>
       <div class="cart-count" v-show="food.count>0">{{ food.count }}</div>
-      <div class="cart-add ion ion-plus-circled" @click="addCart"></div>
+      <div class="cart-add ion ion-plus-circled" @click.stop="addCart"></div>
     </div>
 </template>
 

@@ -8,11 +8,8 @@
         </div>
         <span class="button" :class="payclass">{{payDesc}}</span>
       </div>
-      <transition name="bg">
-        <div class="bg" v-show="fold"></div>
-      </transition>
-      <transition name="showlist">
-        <div class="shopcart-list" v-show="fold">
+        <div class="bg" v-show="listS" @click="bgclick"></div>
+        <div class="shopcart-list" v-show="listS">
           <div class="list-header">
             <h1 class="list-title">购物车</h1>
             <span class="empty" @click="emptylist">清空</span>
@@ -33,7 +30,6 @@
             </ul>
           </div>
         </div>
-      </transition>
     </div>
 </template>
 
@@ -64,7 +60,7 @@ export default {
   data () {
     return {
       carlistShow: false,
-      fold: false
+      fold: true
     };
   },
   computed: {
@@ -98,14 +94,22 @@ export default {
       } else {
         return 'enough';
       }
+    },
+    listS () {
+      if (!this.totalCount) {
+        this.fold = true;
+        return false;
+      }
+      let show = !this.fold;
+      if (show) {
+        this.$nextTick(() => {
+          this.scroll = new BScroll(this.$refs.list, {
+            click: true
+          });
+        });
+      }
+      return show;
     }
-  },
-  created () {
-    this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.list, {
-        click: true
-      });
-    });
   },
   methods: {
     listShow () {
@@ -114,7 +118,14 @@ export default {
       }
       this.fold = !this.fold;
     },
-    emptylist () {}
+    bgclick () {
+      this.fold = true;
+    },
+    emptylist () {
+      this.selectFoods.forEach((food) => {
+        food.count = 0;
+      });
+    }
   }
   };
 </script>
@@ -139,23 +150,19 @@ export default {
       &.enough { background-color: #00b43c; color: #fff;}
     }
   }
-  .shopcart-list{ overflow: hidden;transition:  all 0.5s; width: 100%; position: absolute;transform: translateY(-100%); z-index: -1; top: 0; left: 0; background-color: #fff;
-    &.showlist-enter-active{transform: translateY(0);}
+  .shopcart-list{ overflow: hidden; transform: translateY(-100%); width: 100%; position: absolute; z-index: -1; top: 0; left: 0; background-color: #fff;
     .list-header{ overflow: hidden; padding: 0 18px; height: 40px; line-height: 40px; background-color: #f3f5f7;.border-1px();
       .list-title{ font-size: 14px; color: rgb(7,17,27); font-weight: normal; float: left;}
       .empty{ float: right; font-size: 12px; color: rgb(0,160,220)}
     }
     .list-content{ overflow: hidden; background-color: #fff; max-height: 217px;padding: 0 18px;
       .food{ overflow: hidden; width: 100%; padding: 12px 0; .border-1px();
-        .name{ float: left; font-size: 14px; color: rgb(7,17,27);}
+        .name{ float: left; font-size: 14px; color: rgb(7,17,27); position: relative; top: 10px}
         .price{ display: inline-block; font-size: 12px; color: rgb(240,20,20); font-weight: 700; position: relative; top: -5px;}
         .cartcontrol-wrapper{ display: inline-block}
       }
     }
   }
-  .bg{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(7,17,27,0.6); z-index: -2;transition:  all 0.5s;
-    &.bg-enter-active,.bg-leave-active{ opacity: 1;}
-    &.bg-enter,.bg-leave-to{ opacity: 0;}
-  }
+  .bg{ position: fixed; filter: blur(10px); left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(7,17,27,0.6); z-index: -2;  }
 }
 </style>
