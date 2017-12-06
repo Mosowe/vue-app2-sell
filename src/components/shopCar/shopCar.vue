@@ -8,7 +8,10 @@
         </div>
         <span class="button" :class="payclass">{{payDesc}}</span>
       </div>
+      <transition name="bg">
         <div class="bg" v-show="listS" @click="bgclick"></div>
+      </transition>
+      <transition name="sh">
         <div class="shopcart-list" v-show="listS">
           <div class="list-header">
             <h1 class="list-title">购物车</h1>
@@ -30,6 +33,7 @@
             </ul>
           </div>
         </div>
+      </transition>
     </div>
 </template>
 
@@ -150,19 +154,70 @@ export default {
       &.enough { background-color: #00b43c; color: #fff;}
     }
   }
-  .shopcart-list{ overflow: hidden; transform: translateY(-100%); width: 100%; position: absolute; z-index: -1; top: 0; left: 0; background-color: #fff;
-    .list-header{ overflow: hidden; padding: 0 18px; height: 40px; line-height: 40px; background-color: #f3f5f7;.border-1px();
-      .list-title{ font-size: 14px; color: rgb(7,17,27); font-weight: normal; float: left;}
-      .empty{ float: right; font-size: 12px; color: rgb(0,160,220)}
+  .shopcart-list {
+    overflow: hidden;
+    transition: all 0.3s;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    &.sh-enter-active, &.sh-leave-active {transform: translateY(-100%);}
+    &.sh-enter, &.sh-leave-to {transform: translateY(0);}
+    .list-header {
+      overflow: hidden;
+      padding: 0 18px;
+      height: 40px;
+      line-height: 40px;
+      background-color: #f3f5f7;
+      .border-1px();
+      .list-title {
+        font-size: 14px;
+        color: rgb(7, 17, 27);
+        font-weight: normal;
+        float: left;
+      }
+      .empty {
+        float: right;
+        font-size: 12px;
+        color: rgb(0, 160, 220)
+      }
     }
-    .list-content{ overflow: hidden; background-color: #fff; max-height: 217px;padding: 0 18px;
-      .food{ overflow: hidden; width: 100%; padding: 12px 0; .border-1px();
-        .name{ float: left; font-size: 14px; color: rgb(7,17,27); position: relative; top: 10px}
-        .price{ display: inline-block; font-size: 12px; color: rgb(240,20,20); font-weight: 700; position: relative; top: -5px;}
-        .cartcontrol-wrapper{ display: inline-block}
+    .list-content {
+      overflow: hidden;
+      background-color: #fff;
+      max-height: 217px;
+      padding: 0 18px;
+      .food {
+        overflow: hidden;
+        width: 100%;
+        padding: 12px 0;
+        .border-1px();
+        .name {
+          float: left;
+          font-size: 14px;
+          color: rgb(7, 17, 27);
+          position: relative;
+          top: 10px
+        }
+        .price {
+          display: inline-block;
+          font-size: 12px;
+          color: rgb(240, 20, 20);
+          font-weight: 700;
+          position: relative;
+          top: -5px;
+        }
+        .cartcontrol-wrapper {
+          display: inline-block
+        }
       }
     }
   }
-  .bg{ position: fixed; filter: blur(10px); left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(7,17,27,0.6); z-index: -2;  }
+  .bg{ position: fixed; transition: all 0.3s; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(7,17,27,0.6); z-index: -2;
+    &.bg-enter-active,&.bg-leave-active{opacity: 1;}
+    &.bg-enter,&.bg-leave-to{opacity: 0;}
+  }
 }
 </style>

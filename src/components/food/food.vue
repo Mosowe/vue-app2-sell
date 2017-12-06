@@ -55,7 +55,7 @@ export default {
   &.moveLR-enter,&.moveLR-leave-to{transform: translate3d(100%,0,0);}
   .img-header{ width: 100%; position: relative; height: 0;padding-top: 100%;
     img{ position: absolute; left: 0; top: 0; width: 100%; height: 100%}
-    .ion{ position: absolute; z-index: 1; left: 10px; top: 10px; padding:0 10px;}
+    .ion{ position: absolute; z-index: 1; left: 10px; top: 10px; padding:0 10px; color: #fff}
   }
   .food-info{ overflow: hidden; padding: 18px; border-bottom: 16px solid #f3f5f7; position: relative;
     .name{ font-size: 14px; color: rgb(7,17,27); font-weight: 700; line-height: 14px;}
