@@ -139,7 +139,21 @@ export default {
 #shop-car{ width: 100%; height: 46px; position: fixed; left: 0; bottom: 0; z-index: 99;
   .car-wrapper{  display:flex;width: 100%; background-color: #141d27; height: 100%;color: rgba(255,255,255,0.4);
     .car{ flex: 0 0 44px; width: 44px; height: 44px; border-radius: 44px; border: 6px solid #141d27; background-color: #2b333b; font-size: 24px; line-height: 44px; text-align: center; margin: -10px 12px 8px 12px;position: relative;
-      .carNum{ display: block; background-color: rgb(240,20,20); height: 12px; text-align: center; line-height: 12px; font-size: 9px; color: #fff; padding: 5px 7px; border-radius: 20px; position: absolute; right: -5px; top: -5px;}
+      .carNum {
+        background-color: rgb(240, 20, 20);
+        min-width: 10px;
+        height: 10px;
+        line-height: 10px;
+        text-align: center;
+        font-size:10px;
+        color: #fff;
+        padding: 5px;
+        border-radius: 20px;
+        position: absolute;
+        right: -5px;
+        top: -5px;
+      }
+
       &.highlight{ background-color: rgb(0,160,220); color: #fff;}
     }
     .allprice{ flex: 1; padding-top: 6px;

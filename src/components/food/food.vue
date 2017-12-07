@@ -36,9 +36,9 @@
             </div>
           </div>
           <ul class="rateContent">
-            <li class="rateItem" v-for="item in itemtext">
+            <li class="rateItem" v-for="(item, index) in itemtext">
               <div class="top">
-                <div class="time fl">{{item.rateTime}}</div>
+                <div class="time fl">{{rateT[index]}}</div>
                 <div class="username fr">
                   {{item.username}}
                   <img :src="item.avatar" width="12" height="12" class="userPhoto">
@@ -59,6 +59,7 @@
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll';
 import Vue from 'vue';
+import {formatDate} from '../../common/js/myPlug';
 export default {
   props: {
     food: {
@@ -129,6 +130,17 @@ export default {
         num = 0;
       }
       return ratenum;
+    },
+    rateT () {
+      if (this.showflag) {
+        let times = [];
+        this.food.ratings.forEach((time) => {
+          time = new Date(time.rateTime);
+          time = formatDate(time, 'yyyy-MM-dd hh:mm');
+          times.push(time);
+        });
+        return times;
+      }
     },
     itemtext () {
       let chooselist = [];
