@@ -163,6 +163,7 @@ export default {
     top: 0;
     left: 0;
     background-color: #fff;
+    transform: translateY(-100%);
     &.sh-enter-active, &.sh-leave-active {transform: translateY(-100%);}
     &.sh-enter, &.sh-leave-to {transform: translateY(0);}
     .list-header {

@@ -13,7 +13,7 @@
           <li v-for="item in goods" class="foods-list-hook">
             <h1 class="title">{{ item.name }}</h1>
             <ul>
-              <li @click="selectFood(food)" v-for="food in item.foods" class="foodList">
+              <li v-for="food in item.foods" @click="selectFood(food)" class="foodList">
                 <div class="icon">
                   <img :src="food.icon" width="57" height="57">
                 </div>
