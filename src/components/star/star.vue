@@ -18,7 +18,8 @@
         type: Number
       },
       length: {  // 总的个数
-        type: Number
+        type: Number,
+        default: 5
       }
     },
     computed: {
@@ -47,7 +48,7 @@
 
 <style type="text/css">
 .star{ font-size: 0;}
-.star.star-24 .star-item{ width: 15px; height: 15px; margin-right: 20px; display: inline-block; background-size: cover !important; background-repeat: no-repeat !important;}
+.star.star-24 .star-item{ width: 15px; height: 15px; margin-right: 5px; display: inline-block; background-size: cover !important; background-repeat: no-repeat !important;}
 .star.star-24 .star-item.on{ background: url("star24_on@3x.png")}
 .star.star-24 .star-item.off{ background: url("star24_off@3x.png")}
 .star.star-24 .star-item.half{ background: url("star24_half@3x.png")}
