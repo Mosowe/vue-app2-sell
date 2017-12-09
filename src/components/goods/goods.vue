@@ -96,13 +96,15 @@
         },
         selectFoods () {
           let foods = [];
-          this.goods.forEach((good) => {
-            good.foods.forEach((food) => {
-              if (food.count) {
-                foods.push(food);
-              }
-          });
-        });
+          if (this.goods.length > 0) {
+            this.goods.forEach((good) => {
+              good.foods.forEach((food) => {
+                if (food.count) {
+                  foods.push(food);
+                }
+              });
+            });
+          }
           return foods;
         }
       },

@@ -26,17 +26,18 @@
         </div>
         <div class="food-goods-ratings pd18">
           <div class="title">商品评价</div>
-          <ul class="ratenum">
-            <li :class="{active:rateActive===index}" v-for="(item,index) in rateMenu" @click="rateActive = index">{{item}} <span>{{rate[index]}}</span></li>
-          </ul>
-          <div class="rateChoose">
-            <div @click="rateChoose">
-              <span class="ion ion-checkmark-circled" :class="{checked:checked}"></span>
-              只看有内容的评价
-            </div>
-          </div>
+          <!--<ul class="ratenum">-->
+            <!--<li :class="{active:rateActive===index}" v-for="(item,index) in rateMenu" @click="rateActive = index">{{item}} <span>{{rate[index]}}</span></li>-->
+          <!--</ul>-->
+          <!--<div class="rateChoose">-->
+            <!--<div @click="rateChoose">-->
+              <!--<span class="ion ion-checkmark-circled" :class="{checked:checked}"></span>-->
+              <!--只看有内容的评价-->
+            <!--</div>-->
+          <!--</div>-->
+          <slipt :splits="splits" :ratings="food.ratings"></slipt>
           <ul class="rateContent">
-            <li class="rateItem" v-for="(item, index) in itemtext">
+            <li class="rateItem" v-for="(item, index) in sliptrates">
               <div class="top">
                 <div class="time fl">{{rateT[index]}}</div>
                 <div class="username fr">
@@ -57,136 +58,135 @@
 </template>
 
 <script type="text/ecmascript-6">
-import BScroll from 'better-scroll';
-import Vue from 'vue';
-import {formatDate} from '../../common/js/myPlug';
-export default {
-  props: {
-    food: {
-      type: Object
-    }
-  },
-  data () {
-    return {
-      showflag: false,
-      rateActive: 0,
-      checked: false,
-      rateMenu: ['全部', '推荐', '吐槽']
-    };
-  },
-  created () {
-    this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.fooddetail, {
-        click: true
-      });
-    });
-  },
-  methods: {
-    show () {
-      this.showflag = true;
-    },
-    backPage () {
-      this.showflag = false;
-      this.rateActive = 0;
-      this.checked = false;
-    },
-    addCart () {
-      if (!this.food.count) {
-        Vue.set(this.food, 'count', 1);
-      } else {
-        this.food.count ++;
-      }
-    },
-    rateChoose () {
-      if (this.showflag) {
-        this.checked = !this.checked;
-        this.food.ratings.forEach((text) => {
-          if (text.text) {
+  import BScroll from 'better-scroll';
+  import Vue from 'vue';
+  import {formatDate} from '../../common/js/myPlug';
+  import slipt from '../slipt/slipt.vue';
 
-          }
-        });
-      }
-    }
-  },
-  computed: {
-    rate () {
-      let num = 0;
-      let ratenum = [];
-      if (this.showflag) {
-        ratenum.push(this.food.ratings.length);
-        this.food.ratings.forEach((type) => {
-          if (!type.rateType) {
-            num++;
-          }
-        });
-        ratenum.push(num);
-        num = 0;
-        this.food.ratings.forEach((type) => {
-          if (type.rateType) {
-            num++;
-          }
-        });
-        ratenum.push(num);
-        num = 0;
-      }
-      return ratenum;
+  export default {
+    components: {
+      slipt
     },
-    rateT () {
-      if (this.showflag) {
-        let times = [];
-        this.food.ratings.forEach((time) => {
-          time = new Date(time.rateTime);
-          time = formatDate(time, 'yyyy-MM-dd hh:mm');
-          times.push(time);
-        });
-        return times;
+    props: {
+      food: {
+        type: Object
       }
     },
-    itemtext () {
-      let chooselist = [];
-      if (this.showflag) {
-        if (this.rateActive === 0) {
-          if (!this.checked) {
-            chooselist = this.food.ratings;
-          } else {
-            this.food.ratings.forEach((text) => {
-              if (text.text) {
-                chooselist.push(text);
-              }
-            });
-          }
-        } else if (this.rateActive === 1) {
-          this.food.ratings.forEach((type) => {
-            if (type.rateType === 0) {
-              if (!this.checked) {
-                chooselist.push(type);
-              } else {
-                if (type.text) {
-                  chooselist.push(type);
-                }
-              }
-            }
-          });
-        } else {
-          this.food.ratings.forEach((type) => {
-            if (type.rateType === 1) {
-              if (!this.checked) {
-                chooselist.push(type);
-              } else {
-                if (type.text) {
-                  chooselist.push(type);
-                }
-              }
-            }
-          });
+    data () {
+      return {
+        showflag: false,
+        splits: {
+          rateActive: 0,
+          checked: false
         }
-        return chooselist;
+      };
+    },
+    methods: {
+      show () {
+        this.showflag = true;
+        this.splits.rateActive = 0;
+        this.splits.checked = false;
+        this.$nextTick(() => {
+          this.scroll = new BScroll(this.$refs.fooddetail, {
+            click: true
+          });
+        });
+      },
+      backPage () {
+        this.showflag = false;
+      },
+      addCart () {
+        if (!this.food.count) {
+          Vue.set(this.food, 'count', 1);
+        } else {
+          this.food.count ++;
+        }
+      }
+    },
+    computed: {
+      rate () {
+        let num = 0;
+        let ratenum = [];
+        if (this.showflag) {
+          ratenum.push(this.food.ratings.length);
+          this.food.ratings.forEach((type) => {
+            if (!type.rateType) {
+              num++;
+            }
+          });
+          ratenum.push(num);
+          num = 0;
+          this.food.ratings.forEach((type) => {
+            if (type.rateType) {
+              num++;
+            }
+          });
+          ratenum.push(num);
+          num = 0;
+        }
+        return ratenum;
+      },
+      rateT () {
+        if (this.showflag) {
+          let times = [];
+          this.food.ratings.forEach((time) => {
+            time = new Date(time.rateTime);
+            time = formatDate(time, 'yyyy-MM-dd hh:mm');
+            times.push(time);
+          });
+          return times;
+        }
+      },
+      sliptrates () {
+        let ratebox = [];
+        if (this.showflag) {
+          if (this.splits.rateActive === 0) {
+            if (!this.splits.checked) {
+              ratebox = this.food.ratings;
+            } else {
+              this.food.ratings.forEach((text) => {
+                if (text.text) {
+                  ratebox.push(text);
+                }
+              });
+            }
+          }
+          if (this.splits.rateActive === 1) {
+            if (!this.splits.checked) {
+              this.food.ratings.forEach((type) => {
+                if (!type.rateType) {
+                  ratebox.push(type);
+                }
+              });
+            } else {
+              this.food.ratings.forEach((type) => {
+                if (!type.rateType && type.text) {
+                  ratebox.push(type);
+                }
+              });
+            }
+          }
+          if (this.splits.rateActive === 2) {
+            if (!this.splits.checked) {
+              this.food.ratings.forEach((type) => {
+                if (type.rateType) {
+                  ratebox.push(type);
+                }
+              });
+            } else {
+              this.food.ratings.forEach((type) => {
+                if (type.rateType && type.text) {
+                  ratebox.push(type);
+                }
+              });
+            }
+          }
+        }
+        return ratebox;
       }
     }
-  }
-};
+  };
 </script>
-
 <style lang="less">
 @import "../../common/less/resetFun";
 .food{ position: fixed; width: 100%; left: 0; top: 0; bottom: 46px; z-index: 30; background-color: #fff; transition: all 0.15s linear;

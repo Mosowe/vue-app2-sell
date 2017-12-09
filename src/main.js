@@ -41,7 +41,7 @@ const router = new VueRouter({
     }
   ]
 });
-router.push('/goods');
+// router.push('/goods');
 
 /* eslint-disable no-new */
 new Vue({

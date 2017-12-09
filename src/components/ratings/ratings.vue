@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="rateContent">
-          <slipt :splits="splits"></slipt>
+          <slipt :splits="splits" :ratings="splits.ratings"></slipt>
           <ul>
             <li class="rateList" v-for="(item, index) in sliptrates">
               <div class="userPic"><img :src="item.avatar" width="28" hidden="28"></div>
@@ -148,7 +148,7 @@
 
 <style lang="less">
   @import "../../common/less/resetFun";
-#ratings{ overflow: hidden; width: 100%; background-color: #fff; position: absolute; top: 175px; bottom: 46px;
+#ratings{ overflow: hidden; width: 100%; background-color: #fff; position: absolute; top: 175px; bottom: 0px;
   .totleScore-wrapper{ overflow: hidden; border-bottom: 16px solid #f3f5f7; display: flex; padding: 18px; .border-1px();
     .totlescore{ flex:0 0 135px; text-align: center; border-right: 1px solid #ddd;
       .totle{ font-size: 24px; color: rgb(255,153,0); line-height: 28px; margin-bottom: 6px;}

@@ -15,7 +15,21 @@
 <script type="text/ecmascript-6">
 export default {
   props: {
-    splits: {}
+    ratings: {
+      type: Array,
+      default () {
+        return [];
+      }
+    },
+    splits: {
+      type: Object,
+      default () {
+        return {
+          rateActive: 0,
+          checked: false
+        };
+      }
+    }
   },
   data () {
     return {
@@ -31,16 +45,16 @@ export default {
     rate () {
       let num = 0;
       let ratenum = [];
-      if (this.splits.ratings.length > 0) {
-        ratenum.push(this.splits.ratings.length);
-        this.splits.ratings.forEach((type) => {
+      if (this.ratings.length > 0) {
+        ratenum.push(this.ratings.length);
+        this.ratings.forEach((type) => {
           if (!type.rateType) {
             num++;
           }
         });
         ratenum.push(num);
         num = 0;
-        this.splits.ratings.forEach((type) => {
+        this.ratings.forEach((type) => {
           if (type.rateType) {
             num++;
           }
